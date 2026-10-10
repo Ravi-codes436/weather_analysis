@@ -8,19 +8,31 @@ df["date"] = pd.to_datetime(df["date"])
 # correlation between active_power and temp
 df[ac].corr(df["temp"])
 
+#assigning category to range of values
 df["temp_range"] = pd.cut(
     df["temp"],
     bins = [df["temp"].min()-1,5,15,25,32, df["temp"].max()],
-    labels=["Very Cool", "Cold", ",Moderate", "Warm", "Hot"]   
+    labels=["Very Cool", "Cold", "Moderate", "Warm", "Hot"]   
 )
+
+# now grouping above categories with respect to temperature range column
 grp_temp = df.groupby("temp_range", as_index=False, observed=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-plt.bar(grp_temp["temp_range"], grp_temp["mean"], label = "Mean")
-plt.bar(grp_temp["temp_range"], grp_temp["median"], label = "Median")
-plt.legend()
-plt.show()
+
+#print(df)
+#print(grp_temp.dtypes)
+
+
+fig, ax = plt.subplot_mosaic([["A", "B", "B"],
+                               ["C", "C", "D"],
+                               ] )
+ax["A"].bar(grp_temp["temp_range"], grp_temp["mean"], label = "Mean")
+ax["A"].bar(grp_temp["temp_range"], grp_temp["median"], label = "Median")
+ax["A"].set_xlabel("Weather")
+ax["A"].set_ylabel("Active power")
+ax["A"].legend()
 
 
 
@@ -29,11 +41,12 @@ grp_main = df.groupby("main", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-plt.bar(grp_main["main"], grp_main["mean"], label = "Mean")
-plt.bar(grp_main["main"], grp_main["median"], label = "Median")
-plt.legend()
-plt.xticks(rotation = 45)
-plt.show()
+ax["B"].bar(grp_main["main"], grp_main["mean"], label = "Mean")
+ax["B"].bar(grp_main["main"], grp_main["median"], label = "Median")
+ax["B"].set_xlabel("Description")
+ax["B"].set_ylabel("Active power")
+ax["B"].legend()
+
 
 weather_map = {
     "clear sky": "Clear",
@@ -64,13 +77,6 @@ grp_desc = df.groupby("weather_group", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-plt.bar(grp_desc["weather_group"], grp_desc['mean'],label = "Mean")
-plt.bar(grp_desc["weather_group"], grp_desc['median'],label = "Median")
-plt.legend()
-plt.xticks(rotation = 45)
-plt.show()
-
-
 
 df["press_range"] = pd.cut(
     df["pressure"],
@@ -81,10 +87,11 @@ grp_press = df.groupby("press_range", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-plt.bar(grp_press["press_range"], grp_press["mean"], label= "Mean")
-plt.bar(grp_press["press_range"], grp_press["median"], label= "Median")
-plt.legend()
-plt.show()
+ax["D"].bar(grp_press["press_range"], grp_press["mean"], label= "Mean")
+ax["D"].bar(grp_press["press_range"], grp_press["median"], label= "Median")
+ax["D"].set_xlabel("Pressure")
+ax["D"].set_ylabel("Active Power")
+ax["D"].legend()
 
 
 df["humid_range"]= pd.cut(
@@ -96,7 +103,15 @@ grp_hd = df.groupby("humid_range", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-plt.bar(grp_hd["humid_range"], grp_hd["mean"], label = "Mean")
-plt.bar(grp_hd["humid_range"], grp_hd["median"], label = "Median")
-plt.legend()
+
+ax["C"].bar(grp_hd["humid_range"], grp_hd["mean"], label = "Mean")
+ax["C"].bar(grp_hd["humid_range"], grp_hd["median"], label = "Median")
+ax["C"].set_xlabel("Humidity")
+ax["C"].set_ylabel("Active power")
+ax["C"].legend()
+
+
+
+fig.suptitle("Active power dependence")
+plt.savefig("Weather analysis graphs")
 plt.show()
