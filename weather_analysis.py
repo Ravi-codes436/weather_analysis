@@ -25,9 +25,12 @@ grp_temp = df.groupby("temp_range", as_index=False, observed=False)[ac].agg(
 #print(grp_temp.dtypes)
 
 
-fig, ax = plt.subplot_mosaic([["A", "B", "B"],
-                               ["C", "C", "D"],
-                               ] )
+fig, ax = plt.subplot_mosaic(
+    [["A", "B", "B"],
+     ["C", "C", "D"]],
+    figsize=(16, 10),
+    constrained_layout=True,
+)
 ax["A"].bar(grp_temp["temp_range"], grp_temp["mean"], label = "Mean")
 ax["A"].bar(grp_temp["temp_range"], grp_temp["median"], label = "Median")
 ax["A"].set_xlabel("Weather")
