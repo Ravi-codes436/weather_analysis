@@ -31,10 +31,10 @@ fig, ax = plt.subplot_mosaic(
     figsize=(16, 10),
     constrained_layout=True,
 )
-ax["A"].bar(grp_temp["temp_range"], grp_temp["mean"], label = "Mean")
-ax["A"].bar(grp_temp["temp_range"], grp_temp["median"], label = "Median")
+ax["A"].bar(grp_temp["temp_range"], grp_temp["mean"], label = "Mean", color = "#1F3A5F")
+ax["A"].bar(grp_temp["temp_range"], grp_temp["median"], label = "Median", color = "#4FA3A5")
 ax["A"].set_xlabel("Weather")
-ax["A"].set_ylabel("Active power")
+ax["A"].set_ylabel("Power Consumption in watts")
 ax["A"].legend()
 
 
@@ -44,10 +44,10 @@ grp_main = df.groupby("main", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-ax["B"].bar(grp_main["main"], grp_main["mean"], label = "Mean")
-ax["B"].bar(grp_main["main"], grp_main["median"], label = "Median")
+ax["B"].bar(grp_main["main"], grp_main["mean"], label = "Mean", color = "#1F3A5F")
+ax["B"].bar(grp_main["main"], grp_main["median"], label = "Median", color = "#4FA3A5")
 ax["B"].set_xlabel("Description")
-ax["B"].set_ylabel("Active power")
+ax["B"].set_ylabel("Power Consumption in watts")
 ax["B"].legend()
 
 
@@ -90,10 +90,10 @@ grp_press = df.groupby("press_range", as_index=False)[ac].agg(
     mean = "mean",
     median = "median"
 )
-ax["D"].bar(grp_press["press_range"], grp_press["mean"], label= "Mean")
-ax["D"].bar(grp_press["press_range"], grp_press["median"], label= "Median")
+ax["D"].bar(grp_press["press_range"], grp_press["mean"], label= "Mean", color = "#1F3A5F")
+ax["D"].bar(grp_press["press_range"], grp_press["median"], label= "Median", color = "#4FA3A5")
 ax["D"].set_xlabel("Pressure")
-ax["D"].set_ylabel("Active Power")
+ax["D"].set_ylabel("Power Consumption in watts")
 ax["D"].legend()
 
 
@@ -107,14 +107,16 @@ grp_hd = df.groupby("humid_range", as_index=False)[ac].agg(
     median = "median"
 )
 
-ax["C"].bar(grp_hd["humid_range"], grp_hd["mean"], label = "Mean")
-ax["C"].bar(grp_hd["humid_range"], grp_hd["median"], label = "Median")
+ax["C"].bar(grp_hd["humid_range"], grp_hd["mean"], label = "Mean", color = "#1F3A5F")
+ax["C"].bar(grp_hd["humid_range"], grp_hd["median"], label = "Median", color = "#4FA3A5")
 ax["C"].set_xlabel("Humidity")
-ax["C"].set_ylabel("Active power")
+ax["C"].set_ylabel("Power Consumption in watts")
 ax["C"].legend()
 
 
 
-fig.suptitle("Active power dependence")
+fig.suptitle("Power Consumption dependence")
 plt.savefig("Weather analysis graphs")
 plt.show()
+
+print(df.columns)
