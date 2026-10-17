@@ -116,7 +116,7 @@ ax["C"].legend()
 
 
 fig.suptitle("Power Consumption dependence")
-plt.savefig("Weather analysis graphs")
+plt.savefig("Weather analysis figure")
 plt.show()
 
 print(df.columns)
